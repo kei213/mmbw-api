@@ -16,6 +16,9 @@ const PORT = process.env.PORT || 3000
 // middleware
 app.use(express.json())
 app.use(cors()); /* remove cors for production */
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*")
+})
 
 /*app.use((req, res, next) => {
   // prints to the console the path and method of every request
