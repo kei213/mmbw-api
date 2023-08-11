@@ -1,7 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv';
 import cors from 'cors'; /* delete this for production*/
-app.use(cors());
+
 
 import chatRoutes from './routes/chatRoutes.js'
 
@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 3000
 
 // middleware
 app.use(express.json())
+app.use(cors()); /* remove cors for production */
 
 /*app.use((req, res, next) => {
   // prints to the console the path and method of every request
