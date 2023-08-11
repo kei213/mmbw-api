@@ -1,5 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv';
+import cors from 'cors'; /* delete this for production*/
+app.use(cors());
 
 import chatRoutes from './routes/chatRoutes.js'
 
