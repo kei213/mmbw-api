@@ -41,7 +41,7 @@ app.use('/api/chat', chatRoutes)
 // home route
 app.get('/', (req, res) => {
     const currentDate = new Date();
-  res.send(`netninja-merntut: ${currentDate}`);
+  res.send(`mmbw-backend: ${currentDate}`);
 })
 
 app.listen(PORT, '0.0.0.0', () => {
