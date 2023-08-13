@@ -48,8 +48,8 @@ router.post('/', async(req, res) => {
       chat_history: history || [],
     });
 
-    console.log('response', response.text);
-    res.status(200).json(response.text);
+    console.log('response', response);
+    res.status(200).json(response);
   } catch (error) {
     console.log('error', error);
     res.status(500).json({ error: error.message || 'Something went wrong' });
