@@ -36,7 +36,7 @@ app.use((req, res, next) => {
 })*/
 
 // routes
-app.use('/api/chat', chatRoutes)
+app.use('/api', chatRoutes)
 
 // home route
 app.get('/', (req, res) => {
