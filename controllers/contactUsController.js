@@ -1,4 +1,4 @@
-import ContactMessage from '../models/ContactMessageModel.js'
+import ContactMessage from '../models/contactMessageModel.js'
 import mongoose from 'mongoose'
 
 export const contactUs= async (req, res) => {
