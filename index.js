@@ -1,9 +1,10 @@
 import express from 'express'
 import dotenv from 'dotenv';
 import cors from 'cors'; /* delete this for production*/
-
+import mongoose from 'mongoose'
 
 import chatRoutes from './routes/chatRoutes.js'
+import siteRoutes from './routes/siteRoutes.js'
 
 // Load environment variables from .env file
 dotenv.config();
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 
 // routes
 app.use('/api', chatRoutes)
+app.use('/api', siteRoutes)
 
 // home route
 app.get('/', (req, res) => {
@@ -44,7 +46,15 @@ app.get('/', (req, res) => {
   res.send(`mmbw-backend: ${currentDate}`);
 })
 
-app.listen(PORT, '0.0.0.0', () => {
-        console.log(`app running on ${PORT} `)
-})
+// connect to db
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+      // listen for requests
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`connected to MongoDb & listening 0n ${PORT} `)
+    })
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 
