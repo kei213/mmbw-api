@@ -8,8 +8,7 @@ export const contextInjection = async (req, res) => {
 
   const { question, history } = req.body;
 
-  console.log('question', question);
-  console.log('history', history);
+  console.log('contextInjetion-question:', question);  
 
   //only accept post requests
   if (req.method !== 'POST') {
@@ -43,11 +42,11 @@ export const contextInjection = async (req, res) => {
       question: sanitizedQuestion,
       chat_history: history || [],
     });
-
-    console.log('response', response);
+    console.log('response:', response);
     res.status(200).json(response);
+
   } catch (error) {
-    console.log('error', error);
+    console.log('error:', error);
     res.status(500).json({ error: error.message || 'Something went wrong' });
   }
 

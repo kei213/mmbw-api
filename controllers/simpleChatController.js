@@ -12,7 +12,7 @@ const openai = new OpenAI({
 export const simpleChat = async (req, res) => {
 
   const { question } = req.body;
-
+  console.log('simpleChat: ', question)
   //only accept post requests
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -34,6 +34,7 @@ export const simpleChat = async (req, res) => {
     const text = {
     	"text": response.choices[0].message.content
     } 
+    console.log('response: ', text);
     res.status(200).json(text);
   } catch (error) {
     console.log('error', error);
