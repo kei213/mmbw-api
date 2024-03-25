@@ -11,10 +11,30 @@ dotenv.config();
 
 // express app
 const app = express()
-const PORT = process.env.PORT || 3000 
+const PORT = process.env.PORT || 3000
+
+// cors setup
+const developmentOrigins = ["http://localhost:3000"];
+const productionOrigins = ["https://www.mobilemoneybw.co.bw"];
+
+const allowlist = process.env.NODE_ENV === "production" ? productionOrigins : developmentOrigins;
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (allowlist.indexOf(origin) !== -1 || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error('CORS not allowed'));
+      }
+    },
+    credentials: true,  
+  })
+);
 
 // middleware
 app.use(express.json())
+
 if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {
     // prints to the console the path and method of every request
