@@ -15,7 +15,8 @@ const PORT = process.env.PORT || 3000
 
 // cors setup
 const developmentOrigins = ["http://localhost:3000"];
-const productionOrigins = ["https://www.mobilemoneybw.co.bw"];
+const productionOrigins = ["http://localhost:3000"]
+/*https://www.mobilemoneybw.co.bw*/
 
 const allowlist = process.env.NODE_ENV === "production" ? productionOrigins : developmentOrigins;
 
