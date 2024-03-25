@@ -1,13 +1,13 @@
 import express from 'express'
 import { contactUs } from '../controllers/contactUsController.js'
-// import { subscribe } from '../controllers/subscribeController.js'
+import { search } from '../controllers/searchController.js'
 
 const router = express.Router()
 
-// route for simple chat response
+// route for receiving contact us form
 router.post('/contact-us', contactUs)
 
-// route for context injection response
-// router.post('/subscribe', subscribe)
+// route for performing google searches
+router.post('/search', search)
 
 export default router
