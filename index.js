@@ -11,12 +11,11 @@ dotenv.config();
 
 // express app
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 8000
 
 // cors setup
 const developmentOrigins = ["http://localhost:3000"];
 const productionOrigins = ["https://www.mobilemoneybw.co.bw"]
-/**/
 
 const allowlist = process.env.NODE_ENV === "production" ? productionOrigins : developmentOrigins;
 
