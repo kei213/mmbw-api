@@ -6,16 +6,16 @@ import { systemMessage } from './prompts.js'
 const openai = new OpenAI();
 
 // Function to get answer from OpenAI LLM
-export async function getAnswerFromLLM(question, context, history) {
+export async function getAnswerFromLLM(input, context, history) {
 
   // Chat history is prepared to be passed to the llm
   const formattedHistory = history.map(turn => `${turn.role}: ${turn.content}`); 
   const historyStrings = formattedHistory.join('\n');
  
-  const prompt = `Chat History: ${historyStrings}\nContext: ${context}\n\nGiven the chat history and the context answer the following question\n\nQuestion: ${question}\nAnswer:`;
+  const prompt = `Chat History: ${historyStrings}\nContext: ${context}\n\nInput: ${input}\n\nAnalyze the input from me and decide whether it is a question or a statement. If it is a statement that is a greeting (hello, hey, hi e.t.c) or a farewell (good bye, bye e.t.c) or a gratitude (thank you, thanx e.t.c) then respond politely, if it is a question then use the chat history and the context provided to answer the following\n\nQuestion: ${input}\nAnswer:`;
   console.log(prompt)
 
-   const completion = await openai.chat.completions.create({
+  const completion = await openai.chat.completions.create({
     messages: [
         { role: "system", content: systemMessage },
         { role: "user", content: prompt}
