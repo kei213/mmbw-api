@@ -22,9 +22,9 @@ export async function getAnswerFromLLM(question, context, history) {
     ],
     model: "gpt-4o",
   });
-  console.log("completion - ", completion.choices[0].message)
+  console.log("completion - ", completion.choices[0].message.content)
 
-  return completion.choices[0].message
+  return completion.choices[0].message.content
 
   // const stream = await openai.chat.completions.create({
   //       model: "gpt-4o",

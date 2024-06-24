@@ -47,10 +47,13 @@ export const contextInjection = async (req, res) => {
     const context = Object.values(originalData).map(vector => vector.metadata.text).join('\n');
 
     // Get answer from OpenAI LLM
-    const answer = await getAnswerFromLLM(sanitizedQuestion, context, history
-      );
-    console.log(answer);
-    res.status(200).json(answer);
+    const answer = await getAnswerFromLLM(sanitizedQuestion, context, history);
+
+    const text = {
+      "text": answer
+    }
+    console.log(text);
+    res.status(200).json(text);
 
   } catch (error) {
     console.log('error:', error);
