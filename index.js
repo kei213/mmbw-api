@@ -1,39 +1,23 @@
 import express from 'express'
 import dotenv from 'dotenv';
 import cors from 'cors'; /* delete this for production*/
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
+import { corsConfig } from './config/cors-config.js';
 
-import chatRoutes from './routes/chatRoutes.js'
-import siteRoutes from './routes/siteRoutes.js'
+import chatRoutes from './routes/chatRoutes.js';
+import siteRoutes from './routes/siteRoutes.js';
 
 // Load environment variables from .env file
 dotenv.config();
 
 // express app
-const app = express()
-const PORT = process.env.PORT || 8000
+const app = express();
+const PORT = process.env.PORT || 8000;
 
-// cors setup
-const developmentOrigins = ["http://localhost:3000"];
-const productionOrigins = ["https://www.mobilemoneybw.co.bw"]
-
-const allowlist = process.env.NODE_ENV === "production" ? productionOrigins : developmentOrigins;
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (allowlist.indexOf(origin) !== -1 || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error('CORS not allowed'));
-      }
-    },
-    credentials: true,  
-  })
-);
+app.use(cors(corsConfig));
 
 // middleware
-app.use(express.json())
+app.use(express.json());
 
 if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {
@@ -43,16 +27,15 @@ if (process.env.NODE_ENV === 'development') {
   });
 }
 
-
-// routes
-app.use('/api', chatRoutes)
-app.use('/api', siteRoutes)
-
 // home route
 app.get('/', (req, res) => {
     const currentDate = new Date();
   res.send(`mmbw-backend: ${currentDate}`);
 })
+
+// routes
+app.use('/api', chatRoutes)
+app.use('/api', siteRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
