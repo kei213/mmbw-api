@@ -16,7 +16,7 @@ export async function getAnswerFromLLM(input, context, history) {
         ...history,        
         { role: "user", content: prompt}
     ]
-  // console.log(messages)
+  console.log(messages)
   const completion = await openai.chat.completions.create({
     messages,
     model: "gpt-4o",
