@@ -1,10 +1,6 @@
 // cors setup
 const developmentOrigins = ["http://localhost:3000"];
-<<<<<<< HEAD
-const productionOrigins = ["https://www.mobilemoneybw.co.bw"]
-=======
 const productionOrigins = ["https://www.mobilemoneybw.co.bw"];
->>>>>>> build
 
 const allowlist = process.env.NODE_ENV === "production" ? productionOrigins : developmentOrigins;
 
