@@ -16,7 +16,7 @@ export const contextInjection = async (req, res) => {
 
   const { question } = req.body;
   const history = req.body.messages
-  console.log("chat-query - ")
+  console.log("chat-query - ", question)
   //only accept post requests
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
