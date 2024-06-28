@@ -14,10 +14,9 @@ const index = pinecone.Index(PINECONE_INDEX_NAME);
 
 export const contextInjection = async (req, res) => {
 
-  const { question, history } = req.body;
-
-  console.log('contextInjetion-question:', question);  
-
+  const { question } = req.body;
+  const history = req.body.messages
+  console.log("chat-query - ")
   //only accept post requests
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -33,26 +32,39 @@ export const contextInjection = async (req, res) => {
 
   try {
 
-    //  get embeddings from openai 
-    const queryEmbeddings = await getEmbeddings(sanitizedQuestion);
+    const numberOfWords = sanitizedQuestion.trim().split(/\s+/).length;    
 
-    // find similar vectors in pinecone
-    const similarVectors = await querySimilarVectors(index, queryEmbeddings); 
+    const determineContext = async(numberOfWords) => {
 
-    // Retrieve the original data for the matching vectors
-    const vectorIds = similarVectors.map(match => match.id); 
-    const originalData = await getOriginalData(index, vectorIds);
-    
-    // Construct the context from the retrieved data
-    const context = Object.values(originalData).map(vector => vector.metadata.text).join('\n');
+        if ( numberOfWords > 2 ) {
+          //  get embeddings from openai 
+          const queryEmbeddings = await getEmbeddings(sanitizedQuestion);
+
+          // find similar vectors in pinecone
+          const similarVectors = await querySimilarVectors(index, queryEmbeddings); 
+
+          // Retrieve the original data for the matching vectors
+          const vectorIds = similarVectors.map(match => match.id); 
+          const originalData = await getOriginalData(index, vectorIds);
+          
+          // Construct the context from the retrieved data
+          const context = Object.values(originalData).map(vector => vector.metadata.text).join('\n');
+
+          return context
+        }
+
+        const context = ""
+        return context
+    }
+
+    const context = await determineContext(numberOfWords)
 
     // Get answer from OpenAI LLM
     const answer = await getAnswerFromLLM(sanitizedQuestion, context, history);
-
+    console.log("answer - ", answer)
     const text = {
       "text": answer
-    }
-    console.log(text);
+    }    
     res.status(200).json(text);
 
   } catch (error) {

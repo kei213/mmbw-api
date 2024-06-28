@@ -6,8 +6,7 @@ import { systemMessage } from './prompts.js'
 const openai = new OpenAI();
 
 // Function to get answer from OpenAI LLM
-export async function getAnswerFromLLM(input, context, history) {
-
+export async function getAnswerFromLLM(input, context, history) {  
   const prompt = `Context: ${context}\n\nInput: ${input}\n\nAnalyze the input from me and decide whether it is a question or a statement. If it is a statement that is a greeting (hello, hey, hi e.t.c) or a farewell (good bye, bye e.t.c) or a gratitude (thank you, thanx e.t.c) then respond politely.\n
    If the input is a statement that is not a greeting, farewell or gratitude then analyse the chat history to understand the meaning of the input and answer appropriately. If the input is a question then use the chat history and the context provided to formalize an appropriate answer to the following\n\nQuestion: ${input}\nAnswer:`;
   // console.log(prompt)
@@ -16,26 +15,13 @@ export async function getAnswerFromLLM(input, context, history) {
         ...history,        
         { role: "user", content: prompt}
     ]
-  console.log(messages)
+  
   const completion = await openai.chat.completions.create({
     messages,
     model: "gpt-4o",
-  });
-  // console.log("completion - ", completion.choices[0].message.content)
+  }); 
 
   return completion.choices[0].message.content
-
-  // const stream = await openai.chat.completions.create({
-  //       model: "gpt-4o",
-  //       messages: [
-  //          { role: "system", content: systemMessage },
-  //          { role: "user", content: prompt}
-  //       ],
-  //       stream: true,
-  //   });
-  //   for await (const chunk of stream) {
-  //       process.stdout.write(chunk.choices[0]?.delta?.content || "");
-  //   }
   
 }
 
